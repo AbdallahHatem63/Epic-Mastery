@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أهلاً بك.. استعد للملحمة</title>
+<link rel="icon" href="imgur.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Cairo", sans-serif;
+    background: #020617; /* لون احتياطي خلف الصورة */
+  }
+
+  .welcome-box {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* التعديل هنا: استخدام اسم الملف بتاعك */
+    background: url('imgur2.png') no-repeat center center;
+    background-size: contain; /* استخدمنا contain عشان اللوجو يظهر كامل بدون قص */
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    color: #fff;
+    animation: slideIn 1.5s ease-out forwards, fadeOut 1.5s ease-in-out forwards 3.5s;
+    z-index: 10;
+  }
+
+  /* أنيميشن اللمعان الذهبي للنص */
+  @keyframes gold-shine {
+    0% { color: #fff; text-shadow: 0 0 5px #fff; }
+    50% { color: #fbbf24; text-shadow: 0 0 20px #fbbf24, 0 0 35px #fbbf24; }
+    100% { color: #fff; text-shadow: 0 0 5px #fff; }
+  }
+
+  .welcome-box h1 {
+    font-size: clamp(24px, 5vw, 48px); /* حجم خط مرن للموبايل والكمبيوتر */
+    font-weight: 900;
+    margin-top: 300px; /* نزلت النص شوية عشان ميبقاش فوق وش الأسد والنسر */
+    animation: gold-shine 2s infinite 1.5s;
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.9));
+  }
+
+  @keyframes slideIn {
+    0% { transform: translateY(-100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+  }
+
+  .black-cloud {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fbbf24;
+    font-weight: 900;
+    font-size: clamp(18px, 4vw, 28px);
+    z-index: 20;
+    pointer-events: none;
+    transition: opacity 1.2s ease-in-out;
+  }
+</style>
+</head>
+<body>
+
+<div class="welcome-box">
+  <h1>أهلاً بك في منظمك الدراسي الأسطوري</h1>
+</div>
+
+<div class="black-cloud">
+    <div style="text-align: center;">
+        <p>استعد للمعركة...</p>
+        <p style="font-size: 14px; color: #38bdf8;">أنت قدها يا بطل!</p>
+    </div>
+</div>
+
+<script>
+  setTimeout(() => {
+    const cloud = document.querySelector('.black-cloud');
+    cloud.style.opacity = '1';
+
+    setTimeout(() => {
+      // تأكد إن اسم الملف "الرئيسيه.html" مكتوب صح في مجلدك
+      window.location.href = "الرئيسيه.html"; 
+    }, 1800);
+  }, 3500);
+</script>
+
+</body>
+</html>
