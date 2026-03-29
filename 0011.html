@@ -10,57 +10,74 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <style>
-        body { font-family: 'Tajawal', sans-serif; background: #020617; color: white; }
-        .admin-card { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        body { font-family: 'Tajawal', sans-serif; background: #020617; color: white; min-height: 100vh; }
+        .admin-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .admin-card:hover { border-color: #38bdf8; transform: scale(1.01); }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <div id="loginScreen" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center">
-        <div class="bg-slate-900 p-8 rounded-3xl border border-sky-500/30 text-center shadow-2xl">
-            <h2 class="text-2xl font-black mb-6">🔐 منطقة محظورة</h2>
-            <input type="password" id="adminPass" placeholder="اكتب كلمة السر هنا" class="bg-slate-800 border border-slate-700 p-4 rounded-xl w-full text-center mb-4 outline-none focus:border-sky-500">
-            <button onclick="checkPass()" class="bg-sky-600 hover:bg-sky-500 px-8 py-3 rounded-xl font-bold w-full transition">دخول</button>
+        <div class="bg-slate-900 p-8 rounded-[2rem] border border-sky-500/30 text-center shadow-2xl max-w-sm w-full">
+            <div class="text-5xl mb-4">🔐</div>
+            <h2 class="text-2xl font-black mb-6 text-white">دخول المدير</h2>
+            <input type="password" id="adminPass" placeholder="كلمة السر" class="bg-slate-800 border border-slate-700 p-4 rounded-xl w-full text-center mb-4 text-white outline-none focus:border-sky-500 transition-all">
+            <button onclick="checkPass()" class="bg-gradient-to-r from-sky-600 to-blue-500 hover:from-sky-500 hover:to-blue-400 px-8 py-4 rounded-xl font-black w-full shadow-lg shadow-sky-900/20 active:scale-95 transition">فتح الرادار</button>
         </div>
     </div>
 
     <div id="mainContent" class="hidden max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-10">
-            <h1 class="text-3xl font-black text-sky-400">رادار الزوار 🛰️</h1>
-            <div class="bg-sky-900/30 px-6 py-3 rounded-2xl border border-sky-500/20">
-                <span class="text-slate-400 font-bold">إجمالي الزوار: </span>
-                <span id="totalCount" class="text-2xl font-black text-white">0</span>
+        <header class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <div>
+                <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">رادار الزوار 🛰️</h1>
+                <p class="text-slate-500 font-bold mt-1">مراقبة حية لنشاط المنصة</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="bg-sky-950/40 px-8 py-4 rounded-2xl border border-sky-500/20 flex flex-col items-center">
+                    <span id="totalCount" class="text-3xl font-black text-white">0</span>
+                    <span class="text-xs text-sky-400 font-black uppercase tracking-widest">إجمالي الزوار</span>
+                </div>
+                <button onclick="location.reload()" class="bg-slate-800 p-4 rounded-2xl hover:bg-slate-700 transition" title="تحديث">🔄</button>
+                <button onclick="logout()" class="bg-red-900/20 text-red-500 border border-red-500/20 px-4 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition">خروج</button>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 gap-6" id="visitorsList">
-            <p class="text-center text-slate-500">جاري سحب البيانات من الرادار...</p>
-        </div>
+        <div class="grid grid-cols-1 gap-4" id="visitorsList">
+            </div>
     </div>
 
     <script>
-        // بيانات مشروعك (نفس اللي في الرئيسية)
+        // إعدادات Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyD0iYePvgpLp3DD15I5q6FPuhaSP04_R5U",
             databaseURL: "https://epic-mastery-default-rtdb.firebaseio.com/"
         };
         
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.database();
 
-        // 1. التأكد من كلمة السر
+        // 1. التحقق من الباسوورد الجديد
         function checkPass() {
-            const pass = document.getElementById('adminPass').value;
-            if(pass === "123") { // غير كلمة السر دي براحتك
-                document.getElementById('loginScreen').classList.add('hidden');
+            const passInput = document.getElementById('adminPass').value;
+            // الباسوورد الجديد: Bebo N 1
+            if(passInput === "Bebo N 1") {
+                document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('mainContent').classList.remove('hidden');
                 loadVisitors();
             } else {
-                alert("كلمة سر غلط يا بطل!");
+                alert("الباسوورد غلط يا بطل.. حاول تاني!");
             }
         }
 
-        // 2. سحب البيانات من Firebase وعرضها
+        // تسجيل الخروج
+        function logout() {
+            location.reload();
+        }
+
+        // 2. سحب وعرض البيانات
         function loadVisitors() {
             db.ref('visitors/').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -69,24 +86,28 @@
                 
                 list.innerHTML = "";
                 if(!data) {
-                    list.innerHTML = "<p class='text-center'>مفيش زوار لسه!</p>";
+                    list.innerHTML = "<div class='text-center p-10 text-slate-600 font-bold'>مفيش بيانات لسه.. الرادار شغال وبيراقب!</div>";
                     return;
                 }
 
-                const entries = Object.entries(data).reverse(); // عشان الأحدث يظهر فوق
+                const entries = Object.entries(data).reverse(); 
                 countDisplay.innerText = entries.length;
 
                 entries.forEach(([id, info]) => {
                     const card = document.createElement('div');
-                    card.className = "admin-card p-6 rounded-2xl";
+                    card.className = "admin-card p-6 rounded-3xl flex flex-col md:flex-row justify-between items-center gap-4";
                     card.innerHTML = `
-                        <div class="flex flex-wrap justify-between items-center gap-4">
+                        <div class="flex items-center gap-6 w-full md:w-auto">
+                            <div class="bg-sky-500/10 p-4 rounded-2xl text-2xl">👤</div>
                             <div>
-                                <p class="text-sky-400 font-bold text-sm mb-1">${info.visitTime || 'وقت غير معروف'}</p>
-                                <p class="text-white font-bold">${info.platform || 'جهاز غير معروف'} - ${info.screenResolution || ''}</p>
+                                <p class="text-white font-black text-lg">${info.platform || 'جهاز مجهول'}</p>
+                                <p class="text-sky-400 text-sm font-bold">${info.visitTime || 'وقت غير مسجل'}</p>
                             </div>
-                            <div class="text-left">
-                                <p class="text-xs text-slate-500 break-all max-w-xs">${info.userAgent || ''}</p>
+                        </div>
+                        <div class="flex gap-4 items-center">
+                            <span class="bg-slate-800 px-4 py-2 rounded-xl text-xs font-bold text-slate-300 border border-slate-700">${info.screenResolution || 'N/A'}</span>
+                            <div class="text-left hidden md:block">
+                                <p class="text-[10px] text-slate-500 max-w-[200px] truncate" title="${info.userAgent}">${info.userAgent}</p>
                             </div>
                         </div>
                     `;
@@ -94,6 +115,13 @@
                 });
             });
         }
+
+        // السماح بالدخول عند الضغط على Enter
+        document.getElementById('adminPass').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPass();
+            }
+        });
     </script>
 </body>
 </html>
