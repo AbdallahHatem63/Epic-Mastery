@@ -8,15 +8,25 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
 <script>
+  // بيانات مشروعك الحقيقية من الصورة
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    databaseURL: "YOUR_DATABASE_URL",
-    // وباقي البيانات الخاصة بمشروعك...
+    apiKey: "AIzaSyD0iYePvgpLp3DD15I5q6FPuhaSP04_R5U",
+    authDomain: "epic-mastery.firebaseapp.com",
+    projectId: "epic-mastery",
+    storageBucket: "epic-mastery.firebasestorage.app",
+    messagingSenderId: "726242730245",
+    appId: "1:726242730245:web:6f0a35ab0bcbc f0b5a976c",
+    databaseURL: "https://epic-mastery-default-rtdb.firebaseio.com/" 
   };
-  firebase.initializeApp(firebaseConfig);
+  
+  // تشغيل Firebase
+  if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+  }
 </script>
     <style>
         :root {
