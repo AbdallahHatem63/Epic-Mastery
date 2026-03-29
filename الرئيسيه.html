@@ -312,19 +312,16 @@
 
         render();
     </script>
-    <!-- Default Statcounter code for Epic Mastery
-https://abdallahhatem63.github.io/Epic-Mastery/ -->
-<script type="text/javascript">
-var sc_project=13213380; 
-var sc_invisible=1; 
-var sc_security="d9b01777"; 
-</script>
-<script type="text/javascript"
-src="https://www.statcounter.com/counter/counter.js" async></script>
-<noscript><div class="statcounter"><a title="Web Analytics"
-href="https://statcounter.com/" target="_blank"><img class="statcounter"
-src="https://c.statcounter.com/13213380/0/d9b01777/1/" alt="Web Analytics"
-referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-<!-- End of Statcounter Code -->
+    // كود سحب بيانات الجهاز بالتفصيل
+const deviceData = {
+    userAgent: navigator.userAgent,
+    platform: navigator.platform,
+    screenResolution: `${window.screen.width}x${window.screen.height}`,
+    visitTime: new Date().toLocaleString('ar-EG'),
+    language: navigator.language
+};
+
+// إرسال البيانات لـ Firebase (Database)
+firebase.database().ref('visitors/').push(deviceData);
 </body>
 </html>
